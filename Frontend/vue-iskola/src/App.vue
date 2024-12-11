@@ -18,7 +18,7 @@ export default {
     </nav>
 
     <div class="my-border p-2">
-      <RouterView :urlApi="urlApi" />
+      <RouterView />
     </div>
   </div>
 </template>

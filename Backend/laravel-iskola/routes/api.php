@@ -16,11 +16,11 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
-
 //QUERIES
 Route::get('/queryOsztalynevsor', [QueriesController::class, 'queryOsztalynevsor']);
-Route::get('/queryOsztalytarsak/{nev}', [QueriesController::class, 'queryOsztalytarsak']);
-Route::get('/queryDiakOldalankent/{oldal}/{darab}', [QueriesController::class, 'queryDiakOldalankent']);
+Route::get('/queryOsztalytasrsak/{nev}', [QueriesController::class, 'queryOsztalytasrsak']);
+Route::get('/queryOsztalynevsorLimit/{oldal}/{limit}', [QueriesController::class, 'queryOsztalynevsorLimit']);
+Route::get('/queryHanyOldalVan/{limit}', [QueriesController::class, 'queryHanyOldalVan']);
 Route::get('/queryDiakKeres/{nev}', [QueriesController::class, 'queryDiakKeres']);
 
 
