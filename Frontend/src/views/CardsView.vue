@@ -1,8 +1,12 @@
 <template>
-  <h2>Cards</h2>
+  <div>
+    <h2>Cards</h2>
+  </div>
+  <div>
+    <p>card/page:</p>
+  </div>
 
   <CardsComponent :cards="cards" />
-
   <Paginator />
 </template>
 
@@ -13,7 +17,7 @@ import axios from "axios";
 export default {
   components: {
     CardsComponent,
-    Paginator
+    Paginator,
   },
   data() {
     return {
@@ -35,3 +39,6 @@ export default {
   },
 };
 </script>
+
+<style>
+</style>

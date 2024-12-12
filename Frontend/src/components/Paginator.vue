@@ -1,6 +1,6 @@
 <template>
   <nav aria-label="Page navigation example">
-    <ul class="pagination">
+    <ul class="my-border pagination">
       <li class="page-item"><a class="page-link">Previous</a></li>
       <li class="page-item"><a class="page-link">1</a></li>
       <li class="page-item"><a class="page-link">2</a></li>
@@ -15,7 +15,5 @@ export default {};
 </script>
 
 <style>
-.pagination {
-  max-height: (100vh - 300px);
-}
+
 </style>
