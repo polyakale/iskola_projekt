@@ -1,6 +1,13 @@
 <script>
+import { useCounterStore } from "@/stores/counter";
 import { RouterLink, RouterView } from "vue-router";
-export default {};
+export default {
+  data() {
+    return {
+      state: useCounterStore(),
+    };
+  },
+};
 </script>
 
 <template>
@@ -9,7 +16,8 @@ export default {};
 
     <nav class="my-border p-4">
       <RouterLink to="/">Home</RouterLink> |
-      <RouterLink to="/cards">Cards</RouterLink>
+      <RouterLink to="/cards">Cards</RouterLink> |
+      <span>Counter: ({{ state.paddedCount }})</span>
     </nav>
 
     <div class="my-border p-2">

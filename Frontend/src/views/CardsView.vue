@@ -24,7 +24,7 @@
 
     <!-- Kártyák -->
     <div class="align-items-end">
-      <div class="my-cards-height overflow-y-auto my-border">
+      <div class="my-cards-height overflow-auto my-border">
         <Cards :cards="cards" />
       </div>
 
@@ -44,7 +44,8 @@
 <script>
 import axios from "axios";
 import Cards from "../components/Cards.vue";
-import Paginator from "../components/Paginator.vue";
+import Paginator from "@/components/Paginator.vue";
+import { BASE_URL } from "../helpers/baseUrls";
 export default {
   components: {
     Cards,
@@ -52,7 +53,7 @@ export default {
   },
   data() {
     return {
-      urlApi: "http://localhost:8000/api",
+      urlApi: BASE_URL,
       cards: [], // Kártyák
       currentPage: 1, // Aktuális oldal
       totalPages: 1, // Összes oldal
