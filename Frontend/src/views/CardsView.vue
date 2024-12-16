@@ -1,85 +1,95 @@
 <template>
-  <div class="d-flex flex-column container-fluid">
-    <div class="d-flex justify-content-between">
+  <div>
+    <!-- Fejléc -->
+    <div class="d-flex justify-content-between mb-3">
       <h2>Cards</h2>
-      <!-- kártya/oldal -->
       <div>
-        <p>card/page:</p>
-        <!-- <div>
-          <button data-bs-toggle="dropdown" aria-expanded="false">
-            {{ totalPages }}
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item">{{  }}</a></li>
-          </ul>
-        </div> -->
+        <div class="select">
+          card/page:
+          <select
+            class="form-select"
+            v-model="cardsPerPage"
+            @change="updateCardsPerPage"
+          >
+            <option value="1">1</option>
+            <option value="3">3</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="100">100</option>
+          </select>
+        </div>
       </div>
     </div>
-    <!-- kártyák  -->
-    <div class="my-cards-height overflow-auto">
-      <CardsComponent :cards="cards" />
+
+    <!-- Kártyák -->
+    <div class="align-items-end">
+      <div class="my-cards-height overflow-y-auto my-border">
+        <Cards :cards="cards" />
+      </div>
+
+      <!-- Paginátor -->
+      <div class="p-3 my-border">
+        <Paginator
+          :currentPage="currentPage"
+          :totalPages="totalPages"
+          :pagesArray="pagesArray"
+          @pageChange="handlePageChange"
+        ></Paginator>
+      </div>
     </div>
-    <!-- paginátor -->
-    <Paginator
-      :pagesArray="pagesArray"
-      :pageNumber="pageNumber"
-      @pageSelector="pageSelected"
-    />
   </div>
 </template>
 
 <script>
-import CardsComponent from "../components/CardsComponent.vue";
-import Paginator from "../components/Paginator.vue";
 import axios from "axios";
+import Cards from "../components/Cards.vue";
+import Paginator from "../components/Paginator.vue";
 export default {
   components: {
-    CardsComponent,
+    Cards,
     Paginator,
   },
   data() {
     return {
-      url: "http://localhost:8000/api",
-      cards: [],
-      pageNumber: 1, // melyik oldalon vagyunk
-      cardsByPage: 4, // kártyák/oldal : egy oldalon hány kártya jelenik meg
-      totalPages: 3, // az összes oldal
-      pagesArray: [], // oldalszámok tömbje
-      cardsByPageArray: [1,3,5,10,25,100] // oldalankénti kártyák száma tömb
+      urlApi: "http://localhost:8000/api",
+      cards: [], // Kártyák
+      currentPage: 1, // Aktuális oldal
+      totalPages: 1, // Összes oldal
+      cardsPerPage: 3, // Kártyák száma oldalanként
+      pagesArray: [], // Oldalak száma tömbben
     };
   },
-  mounted() {
-    this.getClassList();
-    this.getTotalPages();
-  },
-  watch: {
-    pageNumber(){
-      this.getClassList();
-    }
+  async mounted() {
+    await this.getOsztalyOldal();
+    await this.getOldalakSzama();
   },
   methods: {
-    async getClassList() {
-      const url = `${this.url}/queryOsztalynevsorLimit/${this.pageNumber}/${this.cardsByPage}`;
+    async getOsztalyOldal() {
+      const url = `${this.urlApi}/queryOsztalynevsorLimit/${this.currentPage}/${this.cardsPerPage}`;
       const response = await axios.get(url);
       this.cards = response.data.data;
+      console.log(this.cards);
     },
-    async getTotalPages() {
-      const url = `${this.url}/queryHanyOldalVan/${this.cardsByPage}`;
+    async getOldalakSzama() {
+      const url = `${this.urlApi}/queryHanyOldalVan/${this.cardsPerPage}`;
       const response = await axios.get(url);
-      this.totalPages = response.data.data.oldalszam;
+      this.totalPages = response.data.data.oldalSzam;
+      console.log("totalpages", this.totalPages);
+      this.pagesArray = [];
       for (let i = 0; i < this.totalPages; i++) {
         this.pagesArray.push(i + 1);
       }
     },
-    pageSelected(page) {
-      this.pageNumber = page;
+    async updateCardsPerPage() {
+      this.currentPage = 1; // Visszaállítjuk az első oldalra
+      await this.getOsztalyOldal(); // Kártyák újratöltése
+      await this.getOldalakSzama(); // Oldalak frissítése
+    },
+    async handlePageChange(newPage) {
+      this.currentPage = newPage;
+      await this.getOsztalyOldal();
     },
   },
 };
 </script>
-
-<style scoped>
-.my-cards-height {
-  height: calc(100vh - 252px);
-}
-</style>

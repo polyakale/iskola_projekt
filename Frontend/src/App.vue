@@ -1,16 +1,11 @@
 <script>
-export default {
-  data() {
-    return {
-      urlApi: "http://localhost:8000/api",
-    };
-  },
-};
+import { RouterLink, RouterView } from "vue-router";
+export default {};
 </script>
 
 <template>
   <div class="container-fluid my-border my-container">
-    <h1>Iskola-projekt</h1>
+    <h1>Iskola-Projekt</h1>
 
     <nav class="my-border p-4">
       <RouterLink to="/">Home</RouterLink> |
@@ -23,5 +18,5 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 </style>
