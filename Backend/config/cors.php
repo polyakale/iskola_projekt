@@ -20,6 +20,8 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => ['*'],
+    // 'allowed_origins' => ['http://localhost'],
+    //'allowed_origins' => ['http://localhost:3000', 'http://localhost:8080'],
 
     'allowed_origins_patterns' => [],
 
@@ -29,6 +31,14 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    //Default
+    'supports_credentials' => true,
+    // A cors támogatja a hitelesítő adatokat a sütiben, egyébként letiltja
+    //ilyen esetben nem engedi a 'allowed_origins' => ['*']-ot
+    //fejlesztői környezetben: 'allowed_origins' => ['*'],
+    //'allowed_origins' => ['http://localhost:*'] beállítás kell
+    // 'supports_credentials' => true,
+    
+
 
 ];

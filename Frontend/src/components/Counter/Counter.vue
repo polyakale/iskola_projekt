@@ -1,29 +1,29 @@
 <template>
-  <button
-    type="button"
-    class="btn btn-outline-success"
+  <button type="button" class="btn btn-outline-success"
     @click="onClickButton()"
   >
-    {{ state.counter }} |
+    {{ state.counter }} | 
     {{ state.paddedCount }}
   </button>
 </template>
 
 <script>
-import { useCounterStore } from "@/stores/counter";
+import {useCounterStore} from '@/stores/counter'
+
 export default {
-  data() {
-    return {
+    data(){
+    return{
       state: useCounterStore(),
-    };
+    }
   },
   methods: {
-    onClickButton() {
+    onClickButton(){
       this.state.increment();
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style>
+
 </style>

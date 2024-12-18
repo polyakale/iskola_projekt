@@ -1,16 +1,17 @@
 <template>
   <h2>Home</h2>
-  <Counter />
+  <Counter/>
 </template>
 
 <script>
-import Counter from "@/components/Counter/Counter.vue";
+import Counter from '@/components/Counter/Counter.vue'
 export default {
   components: {
-    Counter,
-  },
-};
+    Counter
+  }
+}
 </script>
 
 <style>
+
 </style>

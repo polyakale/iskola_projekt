@@ -22,8 +22,9 @@ class UpdateSportolasRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'diakokId' => 'nullable|integer',
-            'sportokId' => 'nullable|integer',
+            'diakokId' => 'required|integer',
+            'sportokId' => 'required|integer',
+
         ];
     }
 }

@@ -1,47 +1,83 @@
 <template>
-  <nav aria-label="Page navigation">
+  <nav aria-label="Pagináció" class="d-flex align-items-center">
     <ul class="pagination">
-      <!-- Előző gomb -->
+      <!-- Previous -->
       <li
         class="page-item"
-        :class="{ disabled: currentPage === 1 }"
-        @click="changePage(currentPage - 1)"
+        :class="{ disabled: pageInfo.pageNumber == 1 }"
+        @click="onClickPrevious()"
       >
-        <a class="page-link" href="#">Previous</a>
+        <span class="page-link">Previous</span>
       </li>
 
-      <!-- Oldalszámok -->
+      <!-- Pages -->
       <li
         class="page-item"
-        v-for="page in pagesArray"
-        :key="page"
-        :class="{ active: page === currentPage }"
-        @click="changePage(page)"
+        aria-current="page"
+        :class="{ active: pageNumber == page }"
+        v-for="page in pagesArray" :key="page"
+        @click="onClickPageNumber(page)"
       >
-        <a class="page-link" href="#">{{ page }}</a>
+        <span class="page-link">{{ page }}</span>
       </li>
 
-      <!-- Következő gomb -->
+      <!-- Next -->
       <li
         class="page-item"
-        :class="{ disabled: currentPage === totalPages }"
-        @click="changePage(currentPage + 1)"
+        :class="{
+          disabled: pageInfo.pageNumber == numberOfPages}"
+        @click="onClickNext()"
       >
-        <a class="page-link" href="#">Next</a>
+        <span class="page-link">Next</span>
       </li>
     </ul>
+    <!-- Debugger -->
+    <p class="ms-3">
+      pageNumber: {{ this.pageNumber }} | numberOfPages: {{ numberOfPages }} |
+      pageInfo: {{ pageInfo.pageNumber }} | pagesArray: {{ pagesArray }}
+    </p>
   </nav>
 </template>
 
 <script>
 export default {
-  props: ["currentPage", "pagesArray", "totalPages"],
+  props: ["pageNumber",
+          "numberOfPages",
+          "pagesArray"],
+  data() {
+    return {
+      pageInfo: {
+        pageNumber: this.pageNumber,
+      },
+    };
+  },
+  watch: {
+    pageNumber(data) {
+      this.pageInfo.pageNumber = data;
+    },
+  },
   methods: {
-    changePage(newPage) {
-      if (newPage >= 1 && newPage <= this.totalPages) {
-        this.$emit("pageChange", newPage);
-      }
+    onClickPrevious() {
+      this.pageInfo.pageNumber = Math.max(
+        1, this.pageInfo.pageNumber - 1);
+      this.$emit("paging", this.pageInfo);
+    },
+    onClickPageNumber(page) {
+      this.pageInfo.pageNumber = page;
+      this.$emit("paging", this.pageInfo);
+    },
+    onClickNext() {
+      this.pageInfo.pageNumber = Math.min(
+        this.numberOfPages,
+        this.pageInfo.pageNumber + 1);
+      this.$emit("paging", this.pageInfo);
     },
   },
 };
 </script>
+
+<style>
+.page-link {
+  cursor: pointer;
+}
+</style>
