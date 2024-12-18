@@ -4,7 +4,7 @@ import { useAuthStore } from "@/stores/useAuthStore";
 
 
 
-function checkIfNotLogged(){
+function checkIfNotLogged() {
   const storeAuth = useAuthStore();
   if (!storeAuth.user) {
     return "/login";
@@ -17,57 +17,77 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: { title: (route) => 'Főoldal' }
     },
     {
       path: '/kartyak/:pageNumber/:cardsPerPage',
       name: 'kartyak',
-      component: () => import('../views/KartyakView.vue')
+      component: () => import('../views/KartyakView.vue'),
+      meta: { title: (route) => `Kártyák/${route.params.pageNumber}/${route.params.cardsPerPage}` },
     },
     {
       path: '/diakkeres',
       name: 'diakkeres',
-      component: () => import('../views/DiakKeres.vue')
+      component: () => import('../views/DiakKeres.vue'),
+      meta: { title: (route) => 'Diák keres' }
     },
     {
       path: '/sportok',
       name: 'sportok',
       component: () => import('../views/Sportok.vue'),
       beforeEnter: [checkIfNotLogged],
+      meta: { title: (route) => 'Sportok' }
     },
     {
       path: '/osztalyok',
       name: 'osztalyok',
       component: () => import('../views/Osztalyok.vue'),
       beforeEnter: [checkIfNotLogged],
+      meta: { title: (route) => 'Osztályok' }
     },
     {
       path: '/diakok',
       name: 'diakok',
       component: () => import('../views/Diakok.vue'),
       beforeEnter: [checkIfNotLogged],
+      meta: { title: (route) => 'Diákok' }
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/components/Auth/Login.vue')
+      component: () => import('@/components/Auth/Login.vue'),
+      meta: { title: (route) => 'Login' }
     },
     {
       path: '/profile',
       name: 'profile',
       component: () => import('@/components/Auth/Profile.vue'),
       beforeEnter: [checkIfNotLogged],
+      meta: { title: (route) => 'Profile' }
     },
     {
       path: '/registration',
       name: 'registration',
-      component: () => import('@/components/Auth/Registration.vue')
+      component: () => import('@/components/Auth/Registration.vue'),
+      meta: { title: (route) => 'Registration' }
     },
-    { path: "/:pathMatch(.*)*", 
-      name: "NotFound", 
-      component: HomeView 
+    {
+      path: "/:pathMatch(.*)*",
+      name: "NotFound",
+      component: HomeView,
+      meta: { title: (route) => 'Home' }
     },
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  const title = to.meta.title;
+  console.log(to);
+  
+  
+  document.title = "Iskola - " + to.meta.title(to)
+  next();
 })
 
 export default router

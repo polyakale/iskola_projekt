@@ -64,35 +64,37 @@ export default {
       pagesArray: [], //hány oldal van tömb
       rowsPerPageArray: [3, 5, 10, 25, 100], //kártya/oldal választék
       pageNumber: this.$route.params.pageNumber, //1 melyik oldal van kiválasztva
-      cardsPerPage: [3, 5, 10, 25, 100].includes(Number(this.$route.params.cardsPerPage)) ? this.$route.params.cardsPerPage : [3, 5, 10, 25, 100][0], //3 hány kártya legyen oldalanként
+      cardsPerPage: this.$route.params.cardsPerPage, //3 hány kártya legyen oldalanként
       numberOfPages: 1, // hány oldal
     };
   },
-  mounted() {
-    this.getOsztalynevsor();
-    this.getPageCount();
+  async mounted() {
+    this.cardPerPageCorrection();
+    console.log(1);
+    await this.getOsztalynevsor();
+    console.log(2);
+    await this.getPageCount();
+    console.log(3);
   },
   watch: {
-    "$route.params.cardsPerPage": {
-      handler(newParams) {
-        console.log("korrigál");
-
-        // this.pageNumber = newParams.pageNumber;
-
-        if (this.rowsPerPageArray.includes(Number(newParams.cardsPerPage))) {
-          this.cardsPerPage = newParams.cardsPerPage;
-        } else {
-          this.cardsPerPage = this.rowsPerPageArray[0];
-        }
-      },
-    },
-    async cardsPerPage() {
-      await this.getOsztalynevsor();
-      await this.getPageCount();
+    $routeChanged: "routeChanged",
+    async cardsPerPage(old, cur) {
+      // if (old != cur) {
+        await this.getOsztalynevsor();
+        await this.getPageCount();
+        console.log(4);
+      // }
+      console.log(5);
+      // if (this.pageNumber >= 0 && this.pageNumber <= this.numberOfPages) {
+      // }
       this.pageNumber = Math.min(this.pageNumber, this.numberOfPages);
       this.routerReplacer();
     },
-    pageNumber() {
+    pageNumber(old, cur) {
+      // if (old == cur) {
+      //   return;
+      // }
+      console.log(6);
       this.getOsztalynevsor();
       this.routerReplacer();
     },
@@ -124,6 +126,22 @@ export default {
           cardsPerPage: this.cardsPerPage,
         },
       });
+    },
+    cardPerPageCorrection() {
+      if (!this.rowsPerPageArray.includes(this.cardsPerPage)) {
+        this.cardsPerPage = this.rowsPerPageArray
+          .filter((x) => x < this.cardsPerPage)
+          .sort((a, b) => b - a)[0];
+      }
+    },
+    routeChanged() {
+      console.log("route changed");
+      if (this.pageNumber != $route.params.pageNumber) {
+        this.pageNumber = this.$route.params.pageNumber;
+      }
+      if (this.cardsPerPage != $route.params.cardsPerPage) {
+        this.cardsPerPage = this.$route.params.cardsPerPage;
+      }
     },
   },
 };
