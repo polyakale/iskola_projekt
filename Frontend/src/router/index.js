@@ -83,9 +83,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const title = to.meta.title;
-  console.log(to);
-  
-  
+  // console.log(to);
   document.title = "Iskola - " + to.meta.title(to)
   next();
 })
