@@ -89,6 +89,7 @@ Route::delete('sportolas/{diakokId}/{sportokId}', [SportolasController::class, '
 
 //queries
 Route::get('queryOsztalynevsorok', [QeriesController::class, 'queryOsztalynevsorok']);
+Route::get('queryOsztalynevsorObj', [QeriesController::class, 'queryOsztalynevsorObj']);
 Route::get('/queryOsztalytasrsak/{nev}', [QeriesController::class, 'queryOsztalytasrsak']);
 Route::get('/queryOsztalynevsorLimit/{oldal}/{limit}', [QeriesController::class, 'queryOsztalynevsorLimit']);
 Route::get('/queryHanyOldalVan/{limit}', [QeriesController::class, 'queryHanyOldalVan']);

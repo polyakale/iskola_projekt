@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
         // }
 
         //Csak sql szintaktikával hajlandó törölni
+        DB::statement('DELETE FROM users');
         DB::statement('DELETE FROM sportolas');
         DB::statement('DELETE FROM diaks');
         DB::statement('DELETE FROM osztalies');

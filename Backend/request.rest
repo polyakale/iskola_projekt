@@ -213,9 +213,15 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 # ---- /sportolas ----
 
-# ---- Lekérdezések -----
-###
+# ---- Lekérdezések ----------------------------------------########
+
+### get osztálnévsor
 get {{host}}/api/queryOsztalynevsorok
+Accept: application/json
+
+### get osztálnévsor
+get {{host}}/api/queryOsztalynevsorObj
+Accept: application/json
 
 ### get Valakinek az osztálytársai
 get {{host}}/api/queryOsztalytasrsak/Feri
