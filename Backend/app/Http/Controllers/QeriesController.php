@@ -44,7 +44,7 @@ class QeriesController extends Controller
     }
     public function queryOsztalynevsorObj()
     {
-        $query = "SELECT o.osztalyNev, GROUP_CONCAT (nev ORDERED BY nev SEPARATOR ', ') AS nevek  FROM diaks d INNER JOIN osztalies o ON d.osztalId = o.id GROUP BY osztalyNev";
+        $query = "SELECT o.osztalyNev, GROUP_CONCAT(d.nev SEPARATOR ', ') nevek FROM diaks d INNER JOIN osztalies o ON d.osztalyId = o.id GROUP BY o.osztalyNev";
         $rows =  DB::select($query);
         $rows = array_map(function ($osztaly){
             $nevek = explode(', ', $osztaly->nevek);

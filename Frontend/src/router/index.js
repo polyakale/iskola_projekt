@@ -27,6 +27,12 @@ const router = createRouter({
       meta: { title: (route) => `Kártyák/${route.params.pageNumber}/${route.params.cardsPerPage}` },
     },
     {
+      path: '/iskolanevsor',
+      name: 'iskolanevsor',
+      component: () => import('../views/IskolanevsorView.vue'),
+      meta: { title: (route) => `Iskolanévsor` }
+    },
+    {
       path: '/diakkeres',
       name: 'diakkeres',
       component: () => import('../views/DiakKeres.vue'),

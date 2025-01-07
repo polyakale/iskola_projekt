@@ -62,7 +62,7 @@ export default {
       urlApi: BASE_URL,
       cards: [], //A kártyák
       pagesArray: [], //hány oldal van tömb
-      rowsPerPageArray: [3, 5, 10, 25, 100], //kártya/oldal választék
+      rowsPerPageArray: [25, 50, 75, 100], //kártya/oldal választék
       pageNumber: this.$route.params.pageNumber, //1 melyik oldal van kiválasztva
       cardsPerPage: this.$route.params.cardsPerPage, //3 hány kártya legyen oldalanként
       numberOfPages: 1, // hány oldal
