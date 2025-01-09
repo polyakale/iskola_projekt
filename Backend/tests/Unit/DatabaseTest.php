@@ -18,6 +18,7 @@ class DatabaseTest extends TestCase
     public function test_database_creation_and_tables_exists(): void
     {
         $databaseNameConn = DB::connection()->getDatabaseName();
+        dd($databaseNameConn);
         $databaseNameEnv = env('DB_DATABASE');
         // dd($databaseNameEnv);
         $this->assertEquals($databaseNameConn, $databaseNameEnv);
