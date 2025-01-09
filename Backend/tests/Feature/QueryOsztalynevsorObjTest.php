@@ -5,17 +5,17 @@ namespace Tests\Feature;
 // use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class QueryOsztalynevsorTest extends TestCase
+class QueryOsztalynevsorObjTest extends TestCase
 {
     private $startTime;
     private $endTime;
     private $responseTime;
 
-    public function test_the_queryOsztalynevsorok_response_time(): void
+    public function test_the_queryOsztalynevsorObj_response_time(): void
     {
         $this->startTime = microtime(true);
 
-        $response = $this->get('/api/queryOsztalynevsorok');
+        $response = $this->get('/api/queryOsztalynevsorObj');
 
         $this->endTime = microtime(true);
         $this->responseTime = round(($this->endTime - $this->startTime) * 1000, 2);
@@ -28,6 +28,6 @@ class QueryOsztalynevsorTest extends TestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        echo PHP_EOL."\tThe response time(queryOsztalynevsorok): ($this->responseTime) ms";
+        echo PHP_EOL."\tThe response time(queryOsztalynevsorObj): ($this->responseTime) ms";
     } 
 }
