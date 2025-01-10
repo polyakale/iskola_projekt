@@ -71,7 +71,7 @@
                   class="dropdown-item"
                   to="/diakok"
                   v-if="stateAuth.user"
-                  >Tanulók</RouterLink
+                  >Diákok</RouterLink
                 >
               </li>
             </ul>

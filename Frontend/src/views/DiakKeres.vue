@@ -1,43 +1,51 @@
 <template>
-  <h1>Diák kereső</h1>
-  <div class="d-flex" role="search">
-    <input
-      class="form-control me-2"
-      type="search"
-      placeholder="Search"
-      aria-label="Search"
-      v-model="searchInput"
-    />
-    <button class="btn btn-outline-success" type="submit" @click="onClickSearch()">Search</button>
+  <div>
+    <h1>Diák kereső</h1>
+    <div class="d-flex" role="search">
+      <input
+        class="form-control me-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        v-model="searchInput"
+      />
+      <button
+        class="btn btn-outline-success"
+        type="submit"
+        @click="onClickSearch()"
+      >
+        Search
+      </button>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">osztalyId</th>
+          <th scope="col">nev</th>
+          <th scope="col">neme</th>
+          <th scope="col">született</th>
+          <th scope="col">helység</th>
+          <th scope="col">ösztöndij</th>
+          <th scope="col">átlag</th>
+          <th scope="col">osztály név</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="row in rows" :key="row.id">
+          <td>{{ row.id }}</td>
+          <td>{{ row.osztalyId }}</td>
+          <td>{{ row.nev }}</td>
+          <td>{{ row.neme }}</td>
+          <td>{{ row.szuletett }}</td>
+          <td>{{ row.helyseg }}</td>
+          <td>{{ row.osztondij }}</td>
+          <td>{{ row.atlag }}</td>
+          <td>{{ row.osztalynev }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">id</th>
-        <th scope="col">osztalyId</th>
-        <th scope="col">nev</th>
-        <th scope="col">neme</th>
-        <th scope="col">született</th>
-        <th scope="col">helység</th>
-        <th scope="col">ösztöndij</th>
-        <th scope="col">átlag</th>
-        <th scope="col">osztály név</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="row in rows" :key="row.id">
-        <td>{{ row.id }}</td>
-        <td>{{ row.osztalyId }}</td>
-        <td>{{ row.nev }}</td>
-        <td>{{ row.neme }}</td>
-        <td>{{ row.szuletett }}</td>
-        <td>{{ row.helyseg }}</td>
-        <td>{{ row.osztondij }}</td>
-        <td>{{ row.atlag }}</td>
-        <td>{{ row.osztalynev }}</td>
-      </tr>
-    </tbody>
-  </table>
 </template>
   
   <script>
@@ -56,9 +64,7 @@ export default {
   mounted() {
     this.getDiaks();
   },
-  watch:{
-    
-  },
+  watch: {},
   methods: {
     async getDiaks() {
       const url = `${BASE_URL}/queryDiakKeres/${this.searchWord}`;
@@ -69,10 +75,10 @@ export default {
       this.rows = response.data.data;
       console.log("válasz", this.rows);
     },
-    onClickSearch(){
+    onClickSearch() {
       this.searchWord = this.searchInput;
       this.getDiaks();
-    }
+    },
   },
 };
 </script>

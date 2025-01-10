@@ -26,7 +26,7 @@
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_STORE" value="array"/>
         <env name="DB_CONNECTION" value="mysql"/>
-        <!-- <env name="DB_DATABASE" value="laravel-iskola2"/> -->
+        <!-- <env name="DB_DATABASE" value="laravel-iskola"/> -->
         <!-- <env name="DB_DATABASE" value=":memory"/> -->
 
 
