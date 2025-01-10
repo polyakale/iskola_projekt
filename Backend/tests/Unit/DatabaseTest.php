@@ -18,7 +18,7 @@ class DatabaseTest extends TestCase
     public function test_database_creation_and_tables_exists(): void
     {
         $databaseNameConn = DB::connection()->getDatabaseName();
-        dd($databaseNameConn);
+        // dd($databaseNameConn);
         $databaseNameEnv = env('DB_DATABASE');
         // dd($databaseNameEnv);
         $this->assertEquals($databaseNameConn, $databaseNameEnv);
@@ -29,6 +29,7 @@ class DatabaseTest extends TestCase
         $this->assertDatabaseHas('sportolas');
         $this->assertDatabaseHas('sports');
         $this->assertDatabaseHas('users');
+        echo PHP_EOL . "\tDatabase: {$databaseNameConn} | DB_DATABASE: ($databaseNameEnv) ms";
     }
     public function test_sports_table_structure()
     {
@@ -98,13 +99,13 @@ class DatabaseTest extends TestCase
         $this->assertEquals('osztalies', $rows[0]->REFERENCED_TABLE_NAME);
         //Referencia oszlop neve: id
         $this->assertEquals('id', $rows[0]->REFERENCED_COLUMN_NAME);
-        
-        
+
+
         //Készítünk egy osztályt
         $dataOsztaly =
-        [
-            'osztalyNev' => '99.d'
-        ];
+            [
+                'osztalyNev' => '99.d'
+            ];
         $osztaly = Osztaly::factory()->create($dataOsztaly);
         // dd($osztaly);
 

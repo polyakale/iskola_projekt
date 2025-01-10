@@ -7,13 +7,17 @@ use Illuminate\Console\Command;
 
 class InitializeTestDatabase extends Command
 {
-    protected $signature = 'db:init:test';
+    //php artisan db:initdb
+    //APP_ENV=testing php artisan db:initdb
+    protected $signature = 'db:initdb';
 
     protected $description = 'Initialize the test database';
 
     public function handle()
     {
-        $this->call('migrate', ['--database' => 'testing']);
-        $this->call('db:seed', ['--class' => DatabaseSeeder::class, '--database' => 'testing']);
+        //php artisan migrate --database-testing
+        $this->call('migrate');
+        //php artisan db:seed --class=DatabaseSeeder
+        $this->call('db:seed', ['--class' => DatabaseSeeder::class]);
     }
 }
