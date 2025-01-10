@@ -1,13 +1,16 @@
 <template>
   <div>
     <h1>Iskolanévsor</h1>
-    <div v-for="(oszt, index) in osztalynevsorok" :key="index">
-      <h3>{{ oszt.osztalyNev }}</h3>
-      <ul v-for="nev in oszt.nevek" :key="nev">
-        <li>{{ nev }}</li>
+    <div v-for="osztaly in rowsOsztalyok" :key="osztaly.osztalyNev">
+      <h2>{{ osztaly.osztalyNev }}</h2>
+      <ul>
+        <li v-for="(nev, index) in osztaly.nevek" :key="index">
+          {{ nev }}
+        </li>
       </ul>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -17,20 +20,20 @@ export default {
   data() {
     return {
       urlApi: BASE_URL,
-      osztalynevsorok: [],
-    };
+      rowsOsztalyok: []
+    }
   },
-  mounted() {
-    this.getOsztalynevsorok();
+  mounted(){
+    this.OsztalynevsorObj()
   },
   methods: {
-    async getOsztalynevsorok() {
-      const url = `${this.urlApi}/queryOsztalynevsorObj`;
+    async OsztalynevsorObj(){
+      const url = `${this.urlApi}/queryOsztalynevsorokObj`;
       const response = await axios.get(url);
-      this.osztalynevsorok = response.data.data;
-      console.log(this.osztalynevsorok);
-    },
-  },
+      this.rowsOsztalyok = response.data.data;
+      console.log(this.rowsOsztalyok);
+    }
+  }
 };
 </script>
 

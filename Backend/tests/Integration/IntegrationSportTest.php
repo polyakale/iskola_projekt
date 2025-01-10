@@ -1,24 +1,54 @@
 <?php
 
-namespace Tests\Integration;
-
-// use Illuminate\Foundation\Testing\RefreshDatabase;
+namespace Tests\Feature;
 
 use GuzzleHttp\Client;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Mockery;
 use Tests\TestCase;
 
 class IntegrationSportTest extends TestCase
 {
+    /**
+     * A basic feature test example.
+     */
     public function test_sports_http(): void
     {
-        //Creating a http ajax request
+        //Ez szimulál egy klienst, ami ajax kérést képes küldeni egy endpointra
         $httpClient = new Client();
-        $url = "http://localhost:8000/api/sports";
-        $response = $httpClient->get($url);
+        $response = $httpClient->get('http://localhost:8000/api/sports');
+        //A json választ dekódolja php tömbbé
         $data = json_decode($response->getBody()->getContents(), true);
+
         $statusCode = $response->getStatusCode();
-        $this->assertEquals(200,$statusCode);
-        // dd($data['data']);
+        $message = $data['message'];
+        $data = $data['data'];
+        $this->assertEquals(200, $statusCode);
+        $this->assertEquals('ok', $message);
         $this->assertGreaterThan(0, count($data));
+        // dd($data);
+
     }
+
+
+    // public function test_check_if_mocking()
+    // {
+    //     $httpMock = Mockery::mock(['alias:' => \Illuminate\Support\Facades\Http::class]);
+    //     $httpMock->shouldReceive('get')
+    //         ->once()
+    //         ->with('http://localhost:8000/api/sports/1')
+    //         ->andReturn(
+    //             [
+    //                 [
+    //                     "id" => 1,
+    //                     "sportNev" => "ppp"
+    //                 ]
+    //             ]
+    //         );
+
+    //     $response= $httpMock->get('http://localhost:8000/api/sports/1');
+    //     dd($response);
+
+    // }
 }

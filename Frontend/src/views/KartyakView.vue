@@ -62,7 +62,7 @@ export default {
       urlApi: BASE_URL,
       cards: [], //A kártyák
       pagesArray: [], //hány oldal van tömb
-      rowsPerPageArray: [25, 50, 75, 100], //kártya/oldal választék
+      rowsPerPageArray: [3, 25, 50, 100, 200], //kártya/oldal választék
       pageNumber: this.$route.params.pageNumber, //1 melyik oldal van kiválasztva
       cardsPerPage: this.$route.params.cardsPerPage, //3 hány kártya legyen oldalanként
       numberOfPages: 1, // hány oldal
@@ -77,24 +77,26 @@ export default {
     console.log(3);
   },
   watch: {
-    $routeChanged: "routeChanged",
+    $route: "routeChanged",
     async cardsPerPage(old, cur) {
-      // if (old != cur) {
+      //if (old != cur) {
+        
         await this.getOsztalynevsor();
         await this.getPageCount();
         console.log(4);
-      // }
+      //}
       console.log(5);
-      // if (this.pageNumber >= 0 && this.pageNumber <= this.numberOfPages) {
+      // if (!(this.pageNumber >= 0 && this.pageNumber <= this.numberOfPages)) {
+        
       // }
       this.pageNumber = Math.min(this.pageNumber, this.numberOfPages);
       this.routerReplacer();
     },
     pageNumber(old, cur) {
       // if (old == cur) {
-      //   return;
+      //   return
       // }
-      console.log(6);
+      console.log(6, old, cur);
       this.getOsztalynevsor();
       this.routerReplacer();
     },
@@ -130,16 +132,17 @@ export default {
     cardPerPageCorrection() {
       if (!this.rowsPerPageArray.includes(this.cardsPerPage)) {
         this.cardsPerPage = this.rowsPerPageArray
-          .filter((x) => x < this.cardsPerPage)
+          .filter((x) => x <= this.cardsPerPage)
           .sort((a, b) => b - a)[0];
       }
     },
     routeChanged() {
-      console.log("route changed");
-      if (this.pageNumber != $route.params.pageNumber) {
+      console.log("route változás");
+      
+      if (this.pageNumber != this.$route.params.pageNumber) {
         this.pageNumber = this.$route.params.pageNumber;
       }
-      if (this.cardsPerPage != $route.params.cardsPerPage) {
+      if (this.cardsPerPage != this.$route.params.cardsPerPage) {
         this.cardsPerPage = this.$route.params.cardsPerPage;
       }
     },

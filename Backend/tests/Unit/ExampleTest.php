@@ -2,15 +2,32 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use App\Models\User;
+use Illuminate\Container\Attributes\DB as AttributesDB;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+// use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
-    public function test(): void
+
+    public function setUp(): void
     {
-        // $response = $this->get('/');
-        // dd($valami);
-        // $response->assertStatus(200);
+        parent::setUp();
+
+        // Adatbázis migrációk futtatása (ha szükséges)
+        // $this->artisan('migrate');
     }
 
+    /**
+     * A basic test example.
+     */
+    public function test_that_true_is_true(): void
+    {
+        $this->assertTrue(true);
+    }
+
+    
 }

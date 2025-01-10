@@ -24,27 +24,27 @@ class SportolasSeeder extends Seeder
             ['diakokId' => 6, 'sportokId' => 5],
         ];
 
-        if (env('APP_ENV') == 'testing') {
-            // Test database
-            if (Sportolas::count() === 0) {
-                for ($i = 0; $i < 100; $i++) {
-                    do {
-                        $diakokId = Diak::inRandomOrder()->first()->id;
-                        $sportokId = Sport::inRandomOrder()->first()->id;
-                    } while (Sportolas::where('diakokId', $diakokId)->where('sportokId', $sportokId)->exists());
 
-                    Sportolas::create([
-                        'diakokId' => $diakokId,
-                        'sportokId' => $sportokId,
-                    ]);
-                }
-                // Sportolas::factory(100)->create()->sync();
+        if (env('APP_ENV')=='testing') {
+            //teszt adatbázis
+            for ($i=0; $i < 100; $i++) { 
+                # code...
+                do {
+                    $diakokId = Diak::inRandomOrder()->first()->id;
+                    $sportokId = Sport::inRandomOrder()->first()->id;
+                } while (Sportolas::where('diakokId', $diakokId)->where('sportokId', $sportokId)->exists());
+            
+                Sportolas::create([
+                    'diakokId' => $diakokId,
+                    'sportokId' => $sportokId,
+                ]);
             }
         } else {
-            // THE actual database
+            //éles adatbázis
             if (Sportolas::count() === 0) {
                 Sportolas::factory()->createMany($data);
             }
-        }
+            }
+
     }
 }
