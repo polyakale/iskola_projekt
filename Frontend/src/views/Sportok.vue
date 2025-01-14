@@ -24,7 +24,7 @@
               @onClickCreate="onClickCreate"
             />
           </td>
-          <td>{{ item.sportNev }}</td>  <!-- Change from 'collection' to 'item' -->
+          <td>{{ item.sportNev }}</td>
         </tr>
       </tbody>
     </table>
@@ -46,10 +46,11 @@
 
 <script>
 import OperationsCrud from "@/components/OperationsCrud.vue";
-import Modal from "@/components/Modal.vue";
 import { BASE_URL } from "../helpers/baseUrls";
-import axios from "axios";
+import Modal from "@/components/Modal.vue";
 import * as bootstrap from "bootstrap";
+import axios from "axios";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 export default {
   components: { OperationsCrud, Modal },
@@ -58,17 +59,18 @@ export default {
       modal: null,
       selectedId: null,
       messageYesNo: null,
-      state: "Read", //CRUD: Create, Read, Update, Delete
+      state: "Read",
       title: null,
       yes: null,
       no: null,
       size: null,
       collection: [],
-      rows: {}, // Initialize rows as an empty object to avoid undefined errors
+      rows: {},
+      store: useAuthStore(),
     };
   },
   mounted() {
-    this.getSports(); // Add call to fetch sports data
+    this.getSports();
     this.modal = new bootstrap.Modal("#modal", {
       keyboard: false,
     });
@@ -81,18 +83,32 @@ export default {
       console.log(this.collection);
     },
     async deleteSport() {
-      const url = `${BASE_URL}/sports/${this.selectedId}`; // Use selectedId for deletion
-      await axios.delete(url);
-      this.collection = this.collection.filter((p) => p.id !== this.selectedId); // Remove deleted item from collection
+      const url = `${BASE_URL}/sports/${this.selectedId}`;
+      const token = this.store.token;
+      const headers = {
+        Accept: 'application/json',
+        "Content-Type": 'application/json',
+        Authorization: `Bearer ${token}`,
+      };
+      console.log("headers, url:",headers, url);
+      
+      try {
+        await axios.delete(url, {
+          headers: headers,
+        });
+        this.getSports();
+      } catch (error) {
+        console.log(error);
+      }
     },
     createSport() {
-      this.collection.push(this.rows); // Add new sport to collection
+      this.collection.push(this.rows);
       this.state = "Read";
     },
     updateSport() {
       const index = this.collection.findIndex((p) => p.id === this.rows.id);
       if (index !== -1) {
-        this.collection[index] = this.rows; // Update existing sport in collection
+        this.collection[index] = this.rows;
       }
       this.state = "Read";
     },
@@ -109,7 +125,7 @@ export default {
       this.no = "No";
       this.size = null;
       this.state = "Delete";
-      this.selectedId = rows.id; // Set selectedId for the delete operation
+      this.selectedId = rows.id;
     },
     onClickUpdate(rows) {
       this.state = "Update";
@@ -117,7 +133,7 @@ export default {
       this.yes = null;
       this.no = "Cancel";
       this.size = "lg";
-      this.rows = { ...rows }; // Copy the selected sport data to rows
+      this.rows = { ...rows };
     },
     onClickCreate() {
       this.title = "New sport creation";
@@ -125,7 +141,7 @@ export default {
       this.no = "Cancel";
       this.size = "lg";
       this.state = "Create";
-      this.rows = {}; // Reset rows for creating a new sport
+      this.rows = {};
     },
     onClickTr(id) {
       this.selectedId = id;
