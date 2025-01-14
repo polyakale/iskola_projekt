@@ -72,7 +72,7 @@ get {{host}}/api/
 get {{host}}/api/sports
 
 ### get sport by id
-get {{host}}/api/sports/13
+get {{host}}/api/sports/3
 
 ### post sports
 POST {{host}}/api/sports
