@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>{{ sportForm }}</p>
+    <p>{{ dataLine }}</p>
     <form class="row g-4 needs-validation was-validated" novalidate>
       <!-- Name -->
       <div class="col-md-8">
@@ -10,10 +10,13 @@
           class="form-control"
           id="name"
           required
-          v-model="sportForm.sportNev"
+          pattern="^.{3,}$"
+          v-model="dataLine.sportNev"
         />
         <div class="valid-feedback">&nbsp;</div>
-        <div class="invalid-feedback">Sport Name is required to be filled out:</div>
+        <div class="invalid-feedback">
+          Sport Name is required to be filled out vagy kettőnél nagyobbnak kell legyen:
+        </div>
       </div>
 
       <button type="submit" class="btn btn-success">Save</button>
@@ -23,7 +26,7 @@
   
   <script>
 export default {
-  props: ["sportForm", "collection"],
+  props: ["dataLine"],
   emits: ["saveSport"],
   mounted() {
     const forms = document.querySelectorAll(".needs-validation");
@@ -46,7 +49,7 @@ export default {
   methods: {
     onClickSubmit() {
       console.log("Save");
-      this.$emit("saveSport", this.sportForm);
+      this.$emit("saveSport", this.dataLine);
     },
   },
 };

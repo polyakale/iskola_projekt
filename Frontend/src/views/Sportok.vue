@@ -5,6 +5,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
+          <!-- Módositás -->
           <th scope="col">Operations</th>
           <th scope="col">SportNev</th>
         </tr>
@@ -18,12 +19,13 @@
         >
           <td class="text-nowrap">
             <OperationsCrud
-              :rows="rows"
+              :item="item"
               @onClickDeleteButton="onClickDeleteButton"
               @onClickUpdate="onClickUpdate"
               @onClickCreate="onClickCreate"
             />
           </td>
+          <!-- Módositás -->
           <td>{{ item.sportNev }}</td>
         </tr>
       </tbody>
@@ -40,20 +42,35 @@
       <div v-if="state == 'Delete'">
         {{ messageYesNo }}
       </div>
+      <!-- Form sport -->
+      <DataForm
+        v-if="state == 'Create' || state == 'Update'"
+        :dataLine="dataLine"
+        @saveSport="saveRowsHandler"
+      />
     </Modal>
   </div>
 </template>
 
 <script>
-import OperationsCrud from "@/components/OperationsCrud.vue";
 import { BASE_URL } from "../helpers/baseUrls";
+import { useAuthStore } from "@/stores/useAuthStore";
+import OperationsCrud from "@/components/OperationsCrud.vue";
+// Móddositás
+import DataForm from "@/components/SportForm.vue";
 import Modal from "@/components/Modal.vue";
 import * as bootstrap from "bootstrap";
 import axios from "axios";
-import { useAuthStore } from "@/stores/useAuthStore";
+
+// Módositás
+class DataLine {
+  constructor(sportNev = null) {
+    this.sportNev = sportNev;
+  }
+}
 
 export default {
-  components: { OperationsCrud, Modal },
+  components: { OperationsCrud, Modal, DataForm },
   data() {
     return {
       modal: null,
@@ -65,86 +82,134 @@ export default {
       no: null,
       size: null,
       collection: [],
-      rows: {},
       store: useAuthStore(),
+      dataLine: new DataLine(),
+      // Módositás
+      urlBase: `${BASE_URL}/sports`,
     };
   },
   mounted() {
-    this.getSports();
+    this.getCollections();
     this.modal = new bootstrap.Modal("#modal", {
       keyboard: false,
     });
   },
   methods: {
-    async getSports() {
-      const url = `${BASE_URL}/sports`;
+    async getCollections() {
+      const url = this.urlBase;
       const response = await axios.get(url);
       this.collection = response.data.data;
       console.log(this.collection);
     },
-    async deleteSport() {
-      const url = `${BASE_URL}/sports/${this.selectedId}`;
+    async deleteDataLine() {
+      const url = `${this.urlBase}/${this.selectedId}`;
       const token = this.store.token;
       const headers = {
-        Accept: 'application/json',
-        "Content-Type": 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       };
-      console.log("headers, url:",headers, url);
-      
+      console.log("headers, url:", headers, url);
+
       try {
         await axios.delete(url, {
           headers: headers,
         });
-        this.getSports();
+        this.getCollections();
       } catch (error) {
         console.log(error);
       }
     },
-    createSport() {
-      this.collection.push(this.rows);
-      this.state = "Read";
-    },
-    updateSport() {
-      const index = this.collection.findIndex((p) => p.id === this.rows.id);
-      if (index !== -1) {
-        this.collection[index] = this.rows;
+    async createDataLine() {
+      const url = this.urlBase;
+      const token = this.store.token;
+      const headers = {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      console.log("dataline",this.dataLine);
+      console.log("headers",headers);
+      try {
+        await axios.post(
+          url,
+          this.dataLine,
+          {
+            headers: headers,
+          },
+          
+        );
+        this.getCollections();
+      } catch (error) {
+        console.log(error.response.status);
       }
-      this.state = "Read";
+    },
+    async updateDataLine() {
+      const url = `${this.urlBase}/${this.selectedId}`;
+      const token = this.store.token;
+      const headers = {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      console.log("dataline",this.dataLine);
+      console.log("headers",headers);
+      try {
+        await axios.patch(
+          url,
+          this.dataLine,
+          {
+            headers: headers,
+          },
+          
+        );
+        this.getCollections();
+      } catch (error) {
+        console.log(error.response.status);
+      }
     },
     yesEventHandler() {
       if (this.state === "Delete") {
-        this.deleteSport();
+        this.deleteDataLine();
         this.modal.hide();
       }
     },
     onClickDeleteButton(rows) {
       this.title = "Delete";
-      this.messageYesNo = `Are you sure you want to delete? Sport: ${rows.sportNev}`;
+      this.messageYesNo = `Are you sure you want to delete it? ${rows.sportNev}`;
       this.yes = "Yes";
       this.no = "No";
       this.size = null;
       this.state = "Delete";
       this.selectedId = rows.id;
     },
-    onClickUpdate(rows) {
+    onClickUpdate(dataLine) {
       this.state = "Update";
-      this.title = "Sport modify";
+      this.title = "Modify";
       this.yes = null;
       this.no = "Cancel";
       this.size = "lg";
-      this.rows = { ...rows };
+      this.dataLine = dataLine;
     },
     onClickCreate() {
-      this.title = "New sport creation";
+      this.title = "New create";
       this.yes = null;
       this.no = "Cancel";
       this.size = "lg";
       this.state = "Create";
-      this.rows = {};
+      this.dataLine = new DataLine();
     },
     onClickTr(id) {
       this.selectedId = id;
+    },
+    saveRowsHandler(dataLine) {
+      this.dataLine = dataLine;
+      this.modal.hide();
+      if (this.state == "Create") {
+        this.createDataLine();
+      } else if (this.state == "Update") {
+        this.updateDataLine();
+      }
     },
   },
 };
