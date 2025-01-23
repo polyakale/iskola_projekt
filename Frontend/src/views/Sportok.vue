@@ -174,14 +174,14 @@ export default {
         this.modal.hide();
       }
     },
-    onClickDeleteButton(rows) {
+    onClickDeleteButton(dataLine) {
       this.title = "Delete";
-      this.messageYesNo = `Are you sure you want to delete it? ${rows.sportNev}`;
+      this.messageYesNo = `Are you sure you want to delete it? ${dataLine.sportNev}`;
       this.yes = "Yes";
       this.no = "No";
       this.size = null;
       this.state = "Delete";
-      this.selectedId = rows.id;
+      this.selectedId = dataLine.id;
     },
     onClickUpdate(dataLine) {
       this.state = "Update";
