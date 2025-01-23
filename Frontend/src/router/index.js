@@ -57,7 +57,7 @@ const router = createRouter({
       name: 'diakok',
       component: () => import('../views/Diakok.vue'),
       beforeEnter: [checkIfNotLogged],
-      meta: { title: (route) => 'Dákok'}
+      meta: { title: (route) => 'Diákok'}
     },
     {
       path: '/login',
