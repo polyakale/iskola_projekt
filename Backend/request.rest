@@ -84,7 +84,7 @@ Authorization: Bearer {{token}}
     "sportNev": "x"
 }
 
-### patch product
+### patch sports
 PATCH {{host}}/api/sports/11
 Accept: application/json
 Content-Type: application/json
@@ -94,7 +94,7 @@ Authorization: Bearer {{token}}
     "sportNev": "Cselgáncsok"
 }
 
-### delete product by id
+### delete sports by id
 DELETE {{host}}/api/sports/11
 Accept: application/json
 Content-Type: application/json
@@ -129,7 +129,7 @@ Authorization: Bearer {{token}}
     "osztalyNev": "1.b"
 }
 
-### delete product by id
+### delete osztaly by id
 DELETE {{host}}/api/osztalies/1
 Accept: application/json
 Content-Type: application/json
