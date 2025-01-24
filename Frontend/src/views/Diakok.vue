@@ -68,11 +68,11 @@
 import { BASE_URL } from "../helpers/baseUrls";
 import { useAuthStore } from "@/stores/useAuthStore";
 import OperationsCrud from "@/components/OperationsCrud.vue";
-// Móddositás
-import DataForm from "@/components/DiakForm.vue";
 import Modal from "@/components/Modal.vue";
 import * as bootstrap from "bootstrap";
 import axios from "axios";
+// Móddositás
+import DataForm from "@/components/DiakForm.vue";
 
 // Módositás
 class DataLine {
@@ -83,7 +83,7 @@ class DataLine {
     szuletett = null,
     helyseg = null,
     osztondij = null,
-    atlag = null,
+    atlag = null
   ) {
     this.osztalyId = osztalyId;
     this.nev = nev;

@@ -22,6 +22,7 @@
           type="number"
           class="form-control"
           id="osztalyId"
+          min="1"
           required
           v-model="dataLine.osztalyId"
         />
@@ -76,7 +77,7 @@
           v-model="dataLine.helyseg"
         />
       </div>
-      <!-- Scholarship (Text Input) -->
+      <!-- Scholarship -->
       <div class="col-md-4">
         <label for="osztondij" class="form-label">Scholarship:</label>
         <input
@@ -102,15 +103,15 @@
     </form>
   </div>
 </template>
-      
+
 <script>
-import dateFormat, { masks } from "dateformat";
+import dateFormat from "dateformat";
+
 export default {
   props: ["dataLine"],
   emits: ["saveItem"],
   mounted() {
     const forms = document.querySelectorAll(".needs-validation");
-    // Loop over them and prevent submission
     Array.from(forms).forEach((form) => {
       form.addEventListener(
         "submit",
@@ -140,12 +141,15 @@ export default {
         return dateFormat(this.dataLine.szuletett, "yyyy-mm-dd");
       },
       set(newValue) {
-        this.dataLine.szuletett = dateFormat(newValue, "yyyy.mm.dd");
+        if (newValue) {
+          const formattedDate = new Date(newValue).toISOString(); // 'yyyy-mm-ddT00:00:00.000Z'
+          this.dataLine.szuletett = formattedDate; // A dátumot ISO formátumban tároljuk
+        }
       },
     },
   },
 };
 </script>
-      
-      <style>
+
+<style>
 </style>
