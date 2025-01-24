@@ -9,11 +9,14 @@
           type="text"
           class="form-control"
           id="nev"
+          pattern="^.{2,}$"
           required
           v-model="dataLine.nev"
         />
         <div class="valid-feedback">&nbsp;</div>
-        <div class="invalid-feedback">Name is required to be filled out</div>
+        <div class="invalid-feedback">
+          Name is required and must be at least 2 letters long.
+        </div>
       </div>
       <!-- OsztalyId -->
       <div class="col-md-2">
@@ -40,6 +43,7 @@
             :value="true"
             id="ferfi"
             v-model="dataLine.neme"
+            required
           />
           <label class="form-check-label" for="ferfi"> Male </label>
         </div>
@@ -84,6 +88,7 @@
           type="text"
           class="form-control"
           id="osztondij"
+          required
           v-model="dataLine.osztondij"
         />
       </div>
@@ -95,6 +100,7 @@
           class="form-control"
           id="atlag"
           step="0.01"
+          required
           v-model="dataLine.atlag"
         />
       </div>

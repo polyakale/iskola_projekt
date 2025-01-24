@@ -13,8 +13,8 @@ class OsztalyController extends Controller
      */
     public function index()
     {
-        // $products = Sport::all();
-        $rows = Osztaly::orderBy('osztalyNev', 'asc')->get();
+        $rows = Osztaly::all();
+        // $rows = Osztaly::orderBy('osztalyNev', 'asc')->get();
         $data = [
             'message' => 'ok',
             'data' => $rows

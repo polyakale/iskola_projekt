@@ -15,7 +15,7 @@
         />
         <div class="valid-feedback">&nbsp;</div>
         <div class="invalid-feedback">
-          Sport Name is required to be filled out vagy kettőnél nagyobbnak kell legyen:
+          Sport Name is required and must be at least 2 characters long.
         </div>
       </div>
 

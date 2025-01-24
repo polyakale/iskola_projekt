@@ -17,14 +17,14 @@ class Osztaly extends Model
         return $this->hasMany(Diak::class);
     }
 
-    public function toArray()
-    {
-        return [
-            'id' => $this->id,
-            'osztalyNev' => $this->osztalyNev,
-            'diakok' => $this->diakok,
-        ];
-    }
+    // public function toArray()
+    // {
+    //     return [
+    //         // 'id' => $this->id,
+    //         // 'osztalyNev' => $this->osztalyNev,
+    //         // 'diakok' => $this->diakok,
+    //     ];
+    // }
 
 
 

@@ -8,6 +8,7 @@
           <!-- Módositás -->
           <th scope="col">Operations</th>
           <th scope="col">OsztalyNev</th>
+          <th scope="col" v-if="debug">Id</th>
         </tr>
       </thead>
       <tbody>
@@ -27,6 +28,7 @@
           </td>
           <!-- Módositás -->
           <td>{{ item.osztalyNev }}</td>
+          <td v-if="debug">{{ item.id }}</td>
         </tr>
       </tbody>
     </table>
@@ -61,6 +63,7 @@ import DataForm from "@/components/OsztalyForm.vue";
 import Modal from "@/components/Modal.vue";
 import * as bootstrap from "bootstrap";
 import axios from "axios";
+import { DEBUG } from "../helpers/debug.js";
 
 // Módositás
 class DataLine {
@@ -86,6 +89,7 @@ export default {
       dataLine: new DataLine(),
       // Módositás
       urlBase: `${BASE_URL}/osztalies`,
+      debug: DEBUG,
     };
   },
   mounted() {
