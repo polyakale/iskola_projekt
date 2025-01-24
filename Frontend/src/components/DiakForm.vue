@@ -4,11 +4,11 @@
     <form class="row g-4 needs-validation was-validated" novalidate>
       <!-- Name -->
       <div class="col-md-7">
-        <label for="name" class="form-label">Name:</label>
+        <label for="nev" class="form-label">Name:</label>
         <input
           type="text"
           class="form-control"
-          id="name"
+          id="nev"
           required
           v-model="dataLine.nev"
         />
@@ -55,44 +55,44 @@
         </div>
       </div>
       <!-- Birth Date -->
-      <div class="col-md-3">
-        <label for="birthdate" class="form-label">Birth Date:</label>
+      <div class="col-md-4">
+        <label for="szuletett" class="form-label">Született:</label>
         <input
           type="date"
           class="form-control"
-          id="birthdate"
+          id="szuletett"
           required
           v-model="formattedDate"
         />
       </div>
       <!-- City -->
       <div class="col-md-8">
-        <label for="city" class="form-label">City:</label>
+        <label for="helyseg" class="form-label">City:</label>
         <input
           type="text"
           class="form-control"
-          id="city"
+          id="helyseg"
           required
           v-model="dataLine.helyseg"
         />
       </div>
       <!-- Scholarship (Text Input) -->
       <div class="col-md-4">
-        <label for="scholarship" class="form-label">Scholarship:</label>
+        <label for="osztondij" class="form-label">Scholarship:</label>
         <input
           type="text"
           class="form-control"
-          id="scholarship"
+          id="osztondij"
           v-model="dataLine.osztondij"
         />
       </div>
       <!-- Average -->
       <div class="col-md-4">
-        <label for="average" class="form-label">Average:</label>
+        <label for="atlag" class="form-label">Average:</label>
         <input
           type="number"
           class="form-control"
-          id="average"
+          id="atlag"
           step="0.01"
           v-model="dataLine.atlag"
         />
@@ -110,7 +110,6 @@ export default {
   emits: ["saveItem"],
   mounted() {
     const forms = document.querySelectorAll(".needs-validation");
-
     // Loop over them and prevent submission
     Array.from(forms).forEach((form) => {
       form.addEventListener(
@@ -139,8 +138,6 @@ export default {
           return null;
         }
         return dateFormat(this.dataLine.szuletett, "yyyy-mm-dd");
-
-        // return this.dataLine.szuletett
       },
       set(newValue) {
         this.dataLine.szuletett = dateFormat(newValue, "yyyy.mm.dd");
